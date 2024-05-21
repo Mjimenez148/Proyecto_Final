@@ -40,7 +40,12 @@ def VentanaPrincipal(page:ft.Page):
        
 
     def guardar(page: ft.page):
-       pass
+       codigo_valor = codigo.value
+       nombre_valor = nombre.value
+       costo_hr_extra_valor = costo_hr_extra.value
+       if codigo_valor in datos_empleados:
+          mensajes.value = 'El codigo de empleado ya existe'
+          
 
     def borrarCampos():
        pass
