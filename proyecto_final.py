@@ -23,7 +23,8 @@ def VentanaPrincipal(page:ft.Page):
     page.add(filaTitulo, filaBotones)
 
     def clickHrsEx(page:ft.Page):
-      pass
+      codigo.valor = codigo_consulta.value
+      
 
     def clickReporte(page: ft.page):
        pass
@@ -40,13 +41,25 @@ def VentanaPrincipal(page:ft.Page):
        
 
     def guardar(page: ft.page):
-       codigo_valor = codigo.value
-       nombre_valor = nombre.value
-       costo_hr_extra_valor = costo_hr_extra.value
-       if codigo_valor in datos_empleados:
+        codigo_valor = codigo.value
+        nombre_valor = nombre.value
+        costo_hr_extra_valor = costo_hr_extra.value
+        if codigo_valor in datos_empleados:
           mensajes.value = 'El codigo de empleado ya existe'
-          
+        else:
+          datos_empleados[codigo_valor] = {
+             'nombre': nombre_valor,
+             'Costo hora extra': costo_hr_extra_valor
+          }
+        borrarCampos()
+        mensajes.value = 'Datos guardados correctamente.'
+        page.update()
 
     def borrarCampos():
-       pass
+       codigo.value = ''
+       nombre.value = ''
+       costo_hr_extra.value = ''
+       mensajes.value = ''
+       page.update()
+
 ft.app(target = VentanaPrincipal)
