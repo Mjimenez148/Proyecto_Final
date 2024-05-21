@@ -22,9 +22,25 @@ def VentanaPrincipal(page:ft.Page):
     filaBotones.controls = [btEmpleado,btHORAS,btReporte]
     page.add(filaTitulo, filaBotones)
 
-    def clickHrsEx(page:ft.Page):
-      codigo.valor = codigo_consulta.value
-      
+    def clickHrsEx(page:ft.Page, codigo_empleado: str):
+       if codigo_empleado in datos_empleados:
+          cantidad_horas = ft.TextField(label="Cantidad de horas trabajadas")
+          btnGuardasHoras = ft.ElevatedButton("Guardas Horas", on_click=lambda _: guardarHoras(page,codigo_empleado, cantidad_horas.value))
+          filaHorasTrabajadas = ft.Row()
+          filaHorasTrabajadas.controls = [cantidad_horas, btnGuardasHoras]
+          page.add(filaHorasTrabajadas)
+       else:
+          mensajes.value = 'El codigo no existe en la base de datos'
+    
+    def guardarHoras(page: ft.Page, codigo_empleado: str, horas_trabajadas: str):
+       if 'Horas Trabajadas' not in datos_empleados[codigo_empleado]:
+          datos_empleados[codigo_empleado]['Horas Trabajadas'] = []
+          datos_empleados[codigo_empleado]['Horas Trabajadas'].append(horas_trabajadas)
+          mensajes.value = f'Se han guardado {horas_trabajadas} horas para el empleado {codigo_empleado}.'
+          page.update()
+          
+
+
 
     def clickReporte(page: ft.page):
        pass
