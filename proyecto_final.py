@@ -38,12 +38,32 @@ def VentanaPrincipal(page:ft.Page):
           datos_empleados[codigo_empleado]['Horas Trabajadas'].append(horas_trabajadas)
           mensajes.value = f'Se han guardado {horas_trabajadas} horas para el empleado {codigo_empleado}.'
           page.update()
-          
+
 
 
 
     def clickReporte(page: ft.page):
-       pass
+       if datos_empleados:
+          tabla_reporte = ft.DataTable(columns=["Codigo Empleado","Nombre","Horas Trabajadas",],
+                                       data=[],
+                                       striped=True,
+                                       bordered=True,
+                                       hover=True
+                                       )
+          for codigo_empleado, datos in datos_empleados.items():
+             nombre_empleado = datos.get('nombre', 'No especificado')
+             horas_trabajadas = datos.get('Horas Trabajadas',[])
+             horas_trabajadas_str = ', '.join(horas_trabajadas)
+             tabla_reporte.data.append([codigo_empleado, nombre_empleado, horas_trabajadas_str])
+
+             page.add(tabla_reporte)
+       else:
+          mensajes.value = 'No tenemos datos de empleados para generar el reporte'
+          page.update()
+
+             
+
+
     def clickEmpleado(page: ft.page):
        filaBotones2 = ft.Row()
        btnGuardar = ft.ElevatedButton("Guardar", on_click=lambda _:guardar(page))
